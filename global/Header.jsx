@@ -1,5 +1,5 @@
 'use client'
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, IconButton, TextField, Toolbar, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -12,6 +12,7 @@ const Header = () => {
         <AppBar position='static' sx={{ backgroundColor:'black' }} >
             <Toolbar sx={{justifyContent:'space-between'}}>
                 <Typography variant='h4' onClick={()=>{router.push('/')}}>FlipMart</Typography>
+                <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                   <Box sx={{display:'flex',}} >
                     <Typography variant='h5' sx={{pl:3}} onClick={()=>{router.push('/shop')}}>Shop</Typography>
                     <Typography variant='h5' sx={{pl:3}} onClick={()=>{router.push('/contact')}}>Contact</Typography>

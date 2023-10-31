@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, List, ListItem, ListItemText, Typography } from '@mui/material'
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -16,6 +16,12 @@ const Footer = () => {
         </Grid>
         <Grid item sx={{  }}>
             <Typography variant='h4'>Quick Link</Typography>
+            <List>
+                <ListItem>
+                    <ListItemText primary="About Us"/>
+                    <ListItemText primary="Contact Us"/>
+                </ListItem>
+            </List>
         </Grid>
         <Grid item sx={{  }}>
             <Typography variant='h4'>Privacy Policy</Typography>

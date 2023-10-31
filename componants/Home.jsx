@@ -21,16 +21,15 @@ const Home = () => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Lizard
+                Boat 
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Price : 299
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
+              <Button sx={{ backgroundColor:'red' }} size="small" variant="contained">Buy Now</Button>
+              <Button size="small" variant="contained">Add To Cart</Button>
             </CardActions>
           </Card>
         </Grid>
