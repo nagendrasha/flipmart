@@ -22,15 +22,14 @@ import { useEffect, useState } from "react";
 //   }
 
 const Shop = () => {
-  const [data, setData] = useState([]);
+  const [apiData, setApiData] = useState([]);
   // console.log(data);
 
   useEffect(() => {
-    axios
-      .get("https://fakestoreapi.com/products")
+    axios.get("https://fakestoreapi.com/products")
       .then((res) => {
-        // console.log(res.data);
-        setData(res.data);
+        console.log(res);
+        setApiData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -40,7 +39,7 @@ const Shop = () => {
   return (
     <>
       <Grid container>
-        <Grid item xs={3} sm={3} md={3} lg={3}>
+        <Grid sx={{ mt:5 }} item xs={3} sm={3} md={3} lg={3}>
           <Box sx={{ m: 5, textAlign: "center" }} boxShadow={5}>
             <Typography variant="h4">Category</Typography>
             <FormGroup sx={{ p: 2 }}>
@@ -52,9 +51,9 @@ const Shop = () => {
         </Grid>
 
         <Grid item xs={9} md={9} sm={9} lg={9}>
-          <Typography variant="h3">Shop</Typography>
-          <Box sx={{ m: 5, textAlign: "center", display:'flex' , flexWrap:'wrap' ,justifyContent:'center' }}>
-            {data.map((ele) => {
+          <Typography variant="h3" sx={{ textAlign:'center' }}>Shop</Typography>
+          <Box sx={{ m: 2, textAlign: "center", display:'flex' , flexWrap:'wrap' ,justifyContent:'center' }}>
+            {apiData.map((ele) => {
               return (
                 <Card sx={{ maxWidth: 300, m:5 }}>
                   {/* <img
