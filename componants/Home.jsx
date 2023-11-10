@@ -3,9 +3,10 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import {useRouter} from 'next/navigation'
 
 const Home = () => {
-  const router = useRouter
+  const router = useRouter()
 
   const [apiData,setApiData] = useState([]);
 
@@ -21,8 +22,8 @@ const Home = () => {
     });
   },[]);
 
-  const handleShop = () =>{
-
+  const handleShop = (id) =>{
+      router.push(`/shop/product/${id}`)
   }
 
   return (

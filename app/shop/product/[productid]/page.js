@@ -17,11 +17,20 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StarIcon from "@mui/icons-material/Star";
+import { useParams } from "next/navigation";
+import axios from "axios";
 const Product = () => {
+
+  const  params = useParams();
+
+  
+
+
+  // console.log("product",params.productid)
   const labels = {
     0.5: "Useless",
     1: "Useless+",
@@ -35,18 +44,35 @@ const Product = () => {
     5: "Excellent+",
   };
 
-  function getLabelText(value) {
-    return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
-  }
 
   const [size, setSize] = useState("");
-
-  const [value, setValue] = useState(2);
-  const [hover, setHover] = useState(-1);
 
   const handleChange = (eve) => {
     setSize(eve.target.value);
   };
+
+  const [apiData,setApiData] = useState([]);
+
+ 
+
+  const fetchData = async()=>{
+    try{
+      const singleProduct  = await axios.get("https://fakestoreapi.com/products")
+
+      console.log(singleProduct);
+      setApiData(...apiData,setApiData)
+  
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    fetchData();
+  },[])
+
+
+  
 
   return (
     <>
