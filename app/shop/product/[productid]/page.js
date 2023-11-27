@@ -1,5 +1,8 @@
 "use client";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
+import StarIcon from "@mui/icons-material/Star";
 import {
   Box,
   Button,
@@ -14,22 +17,20 @@ import {
   Rating,
   Select,
   TextField,
-  TextareaAutosize,
-  Typography,
+  Typography
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import StarIcon from "@mui/icons-material/Star";
-import { useParams } from "next/navigation";
 import axios from "axios";
+import { set } from "mongoose";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 const Product = () => {
 
+  const [ product,setProduct ] = useState({});
+  const [size, setSize] = useState("");
+
   const  params = useParams();
-
+  console.log(params.productid);
   
-
-
   // console.log("product",params.productid)
   const labels = {
     0.5: "Useless",
@@ -44,35 +45,33 @@ const Product = () => {
     5: "Excellent+",
   };
 
-
-  const [size, setSize] = useState("");
-
-  const handleChange = (eve) => {
-    setSize(eve.target.value);
+  const handleChange = (event) => {
+    setSize(event.target.value);
   };
-
-  const [apiData,setApiData] = useState([]);
-
  
-
   const fetchData = async()=>{
     try{
       const singleProduct  = await axios.get("https://fakestoreapi.com/products")
+     
+      const filtered = singleProduct.data.filter((ele)=>{
+        return ele.id==params.productid;
+      }) 
+      setProduct(...filtered)
 
-      console.log(singleProduct);
-      setApiData(...apiData,setApiData)
+      console.log(filtered);
   
     }catch(err){
       console.log(err);
     }
   }
 
+
   useEffect(()=>{
     fetchData();
   },[])
 
+  // console.log(product);
 
-  
 
   return (
     <>
@@ -83,24 +82,21 @@ const Product = () => {
         <Grid item xs={7} lg={7} sm={7} md={7}>
           <Box>
             <img
-              src="https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg"
+              src={product.image}
               width={300}
             />
           </Box>
           <Box sx={{ mt: 10 }}>
             <Typography variant="h3">Material</Typography>
             <Typography variant="p">
-              Our manufacturing staff works with cleanliness for your health,
-              safety and quality standard for our products so our garments are
-              safe and healthy. We are using polycotton fabric for our garments.
-              Your safety is our concern.
+              {product.description}
             </Typography>
           </Box>
         </Grid>
         <Grid item xs={5} lg={5} md={5} sm={5} sx={{ mt: 5 }}>
-          <Typography variant="h4">Product Name</Typography>
+          <Typography variant="h4">{product.title}</Typography>
           <Typography variant="p">
-            Price : <span style={{ color: "red" }}> 1999</span>{" "}
+            Price : <span style={{ color: "red" }}> {product.price}</span>{" "}
           </Typography>{" "}
           <br />
           <span>
@@ -209,9 +205,9 @@ const Product = () => {
               >
                 <Rating
                   name="hover-feedback"
-                  value={value}
+                  // value={value}
                   precision={0.5}
-                  getLabelText={getLabelText}
+                  // getLabelText={getLabelText}
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
@@ -222,11 +218,7 @@ const Product = () => {
                     <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
                   }
                 />
-                {value !== null && (
-                  <Box sx={{ ml: 2 }}>
-                    {labels[hover !== -1 ? hover : value]}
-                  </Box>
-                )}
+                
               </Box>
               <br />
               <TextField

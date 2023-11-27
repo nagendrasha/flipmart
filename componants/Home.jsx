@@ -33,8 +33,8 @@ const Home = () => {
    
       {/* <Header/> */}
       <Grid container sx={{  }} className="banner">
-        <Box sx={{ height: "100%",width:"100%" }}>
-          <Image src="/b3.png" alt="" width={1280} height={500} />
+        <Box sx={{ position:'relative' }}>
+          <Image src="/b3.png" alt="bg" width={1450} height={500}  />
         </Box>
       </Grid>
 

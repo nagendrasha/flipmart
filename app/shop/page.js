@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // seo code
@@ -22,19 +23,45 @@ import { useEffect, useState } from "react";
 //   }
 
 const Shop = () => {
-  const [apiData, setApiData] = useState([]);
-  // console.log(data);
 
-  useEffect(() => {
-    axios.get("https://fakestoreapi.com/products")
+  const router = useRouter();
+
+  const [apiData, setApiData] = useState([]);
+
+  const [ cate,setCate ] =  useState([]);
+
+  const fetchData = async () => {
+    await axios.get("https://fakestoreapi.com/products")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+
+        const category =  res.data.map((ele)=>{
+          return ele.category
+
+        })
+        const uniqueCat = new Set(category)
+
+        setCate([...uniqueCat])
         setApiData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  const handleFilter = (ele) => {
+    
+    console.log(ele);
+  }
+  // console.log(data);
+  useEffect(() => {
+    fetchData()
   }, []);
+
+
+  const handleShop = (id) =>{
+    router.push(`/shop/product/${id}`);
+  }
 
   return (
     <>
@@ -42,10 +69,16 @@ const Shop = () => {
         <Grid sx={{ mt:5 }} item xs={3} sm={3} md={3} lg={3}>
           <Box sx={{ m: 5, textAlign: "center" }} boxShadow={5}>
             <Typography variant="h4">Category</Typography>
-            <FormGroup sx={{ p: 2 }}>
-              <FormControlLabel control={<Checkbox />} label="Headphone" />
-              <FormControlLabel control={<Checkbox />} label="Watch" />
-              <FormControlLabel control={<Checkbox />} label="Glasses" />
+            <FormGroup sx={{ p: 2 }}
+            onChange={handleFilter}
+            >
+              {
+                cate.map((ele,index)=>{
+                  return (
+                    <FormControlLabel key={index} control={<Checkbox onChange={handleFilter(ele)}/>} label={ele}  />
+                  )
+                })
+              }
             </FormGroup>
           </Box>
         </Grid>
@@ -55,13 +88,7 @@ const Shop = () => {
           <Box sx={{ m: 2, textAlign: "center", display:'flex' , flexWrap:'wrap' ,justifyContent:'center' }}>
             {apiData.map((ele) => {
               return (
-                <Card sx={{ maxWidth: 300, m:5 }}>
-                  {/* <img
-                    src={ ele.image}
-                    alt="unable to load image"
-                    height="100%"
-                    width="100%"
-                  /> */}
+                <Card sx={{ maxWidth: 300, m:2 }}>
                   <CardMedia
                     sx={{ height: 280 }}
                     image={ele.image}
@@ -80,6 +107,7 @@ const Shop = () => {
                       sx={{ backgroundColor: "red" }}
                       size="small"
                       variant="contained"
+                      onClick={(()=>{handleShop(ele.id)})}
                     >
                       Buy Now
                     </Button>
